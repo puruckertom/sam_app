@@ -4,8 +4,8 @@ import string
 import random
 import json
 import logging
-import sam_db
-import sam_input_generator
+from sam_rest import sam_db
+from sam_rest import sam_input_generator
 # ProcessPoolExecutor: http://stackoverflow.com/questions/24896193/whats-the-difference-between-pythons-multiprocessing-and-concurrent-futures
 import concurrent.futures
 from functools import partial
