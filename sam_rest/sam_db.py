@@ -1,6 +1,5 @@
 import logging
 import os
-import keys_Picloud_S3
 import requests
 import json
 
@@ -176,7 +175,7 @@ def update_postgres(jid, args, huc_output):
             user=keys_Picloud_S3.postgres_user,
             password=keys_Picloud_S3.postgres_pwd
         )
-    except pg.OperationalError, e:
+    except pg.OperationalError as e:
         logging.exception(e)
         return None
 

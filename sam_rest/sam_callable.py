@@ -1,12 +1,13 @@
-__author__ = 'jflaisha'
-
-import logging, numpy as np, requests, json, cPickle
+import logging
+import numpy as np
+import requests
+import json
+import pickle
 
 try:
     import superprzm  # Import superprzm.dll / .so
-
     _dll_loaded = True
-except ImportError, e:
+except ImportError as e:
     logging.exception(e)
     _dll_loaded = False
 
@@ -15,7 +16,7 @@ def run(jid, sam_bin_path, name_temp, section, array_size):
     # np_array_out = np.random.rand(50,3)  # Dummy NumPy data
 
     # Run SuperPRZM as DLL
-    print "sam_bin_path: ", sam_bin_path
+    print("sam_bin_path: ", sam_bin_path)
     np_array_huc_ids, np_array_out = superprzm.runmain.run(sam_bin_path, name_temp, section, array_size)
 
     huc_ids = create_huc_ids_list(np_array_huc_ids)
@@ -60,7 +61,7 @@ def serialize(jid, huc_ids, np_array, name_temp, section):
     :param section:
     :return:
     """
-    return cPickle.dumps({
+    return pickle.dumps({
         "jid": jid,
         'output': np_array,
         'huc_ids': huc_ids

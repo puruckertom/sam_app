@@ -1,15 +1,16 @@
-__author__ = 'jflaisha'
-
 from functools import partial
 from concurrent.futures import ProcessPoolExecutor as Pool
-import multiprocessing, logging, sys, os, numpy as np
-import sam_callable
+import multiprocessing
+import logging
+import sys
+import os
+from sam_rest import sam_callable
 
 try:
     import superprzm  # Import superprzm.dll / .so
 
     _dll_loaded = True
-except ImportError, e:
+except ImportError as e:
     logging.exception(e)
     _dll_loaded = False
 
@@ -33,7 +34,7 @@ def multiprocessing_setup():
             nproc = 16
     except:
         pass
-    print "max_workers=%s" % nproc
+    print("max_workers=%s" % nproc)
     return Pool(max_workers=nproc)  # Set number of workers to equal the number of processors available on machine
 
 
@@ -47,7 +48,7 @@ class SamModelCaller(object):
         """
 
         self.sam_bin_path = os.path.join(curr_path, 'bin')
-        print self.sam_bin_path
+        print(self.sam_bin_path)
         self.jid = jid
         self.name_temp = name_temp
         self.no_of_processes = no_of_processes
@@ -72,7 +73,7 @@ class SamModelCaller(object):
         try:
             self.number_of_rows_list = self.split_csv()
         except:
-            print "Split CSV failed"
+            print("Split CSV failed")
             self.number_of_rows_list = [306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 320]
 
         for x in range(self.no_of_processes):  # Loop over all the 'no_of_processes' to fill the process
@@ -103,7 +104,7 @@ class SamModelCaller(object):
         :return: list; list with length equal number of csv sections, where each index is number of rows in section
         """
 
-        print "number = ", self.no_of_processes
+        print("number = ", self.no_of_processes)
         import pandas as pd
         df = pd.read_csv(os.path.join(
             self.sam_bin_path, 'EcoRecipes_huc12', 'recipe_combos2012', 'huc12_outlets_metric.csv'),
@@ -117,8 +118,8 @@ class SamModelCaller(object):
 
         try:
             rows_per_sect = df.shape[0] / self.no_of_processes
-            print rows_per_sect
-            print type(rows_per_sect)
+            print(rows_per_sect)
+            print(type(rows_per_sect))
         except:
             self.no_of_processes = 1
             rows_per_sect = df.shape[0] / self.no_of_processes
@@ -129,15 +130,15 @@ class SamModelCaller(object):
         i = 1
         while i <= self.no_of_processes:
             if i == 1:
-                print 1
+                print(1)
                 # First slice
                 df_slice = df[:rows_per_sect]
             elif i == self.no_of_processes:
-                print str(i) + " (last)"
+                print(str(i) + " (last)")
                 # End slice: slice to the end of the DataFrame
                 df_slice = df[((i - 1) * rows_per_sect):]
             else:
-                print i
+                print(i)
                 # Middle slices (not first or last)
                 df_slice = df[((i - 1) * rows_per_sect):i * rows_per_sect]
 
@@ -182,13 +183,13 @@ def daily_conc_callable(jid, sam_bin_path, name_temp, section, array_size=320):
 
     try:
         sam_callable.run(jid, sam_bin_path, name_temp, section, int(array_size))
-    except Exception, e:
+    except Exception as e:
         mp_logger.exception(e)
 
 
 def callback_daily(section, future):
-    print "Section: ", section
-    # print future.result()
+    print("Section: ", section)
+    # print(future.result())
 
 
 def create_number_of_rows_list(list_string):
