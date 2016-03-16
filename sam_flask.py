@@ -31,10 +31,11 @@ def sam_endpoint():
         """
         Return contents of default Mark Twain 'SAM.inp' to user
         """
-        return os.path.join(
+        default_sam_input = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             'sam', 'bin', 'MarkTwain', 'Inputs', 'SAM.inp'
         )
+        return sam_endpoints.read_sam_input_file(default_sam_input)
 
     return "Error"
 
