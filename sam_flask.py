@@ -39,6 +39,23 @@ def sam_endpoint():
 
     return "Error"
 
+@app.route('/rest/sam/naive_run', methods=['POST'])
+def run_sam():
+    if request.method == 'POST':
+        from sam.Tool import pesticide_calculator
+        pesticide_calculator.main()
+
+
+    return "Hey there"
+
+@app.route('/rest/sam/full_run', methods=['POST'])
+def run_sam2():
+    if request.method == 'POST':
+        from sam.Tool import pesticide_calculator
+        pesticide_calculator.pesticide_calculator(request.json["inputs"])
+
+
+    return "Hey there"
 
 if __name__ == '__main__':
     app.run(port=7778, debug=True)
