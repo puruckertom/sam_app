@@ -20,12 +20,16 @@ def sam_endpoint():
         """
         Generate 'SAM.inp' from user provided input JSON and return contents of 'SAM.inp' to user
         """
-        return sam_endpoints.sam_input_prep(
-            no_of_processes=1,
-            name_temp=None,
-            temp_sam_run_path=None,
-            args=request.json["inputs"]
-        )
+        from sam.Tool import pesticide_calculator as calc
+
+        calc.main(request.json["inputs"])
+        return "SAM Run Submitted"
+        # return sam_endpoints.sam_input_prep(
+        #     no_of_processes=1,
+        #     name_temp=None,
+        #     temp_sam_run_path=None,
+        #     args=request.json["inputs"]
+        # )
 
     if request.method == 'GET':
         """
