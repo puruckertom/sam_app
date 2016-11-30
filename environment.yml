@@ -1,0 +1,8 @@
+name: sam_env
+dependencies:
+  - numpy
+  - pandas
+  - numba
+  - pip:
+    - flask
+    - uwsgi

@@ -2,7 +2,7 @@ import os
 import random
 import shutil
 import string
-import sam_input_generator
+from sam_rest import sam_input_generator
 
 
 # Generate a random ID for file save

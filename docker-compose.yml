@@ -1,0 +1,15 @@
+ version: '2'
+ services:
+  samrest:
+    build: .
+#    command: ["uwsgi", "/etc/uwsgi/uwsgi.ini"]
+    expose:
+    - "8080"
+  nginx:
+#    restart: always
+    image: funkswing/nginx-uwsgi-python
+    ports:
+    - "80:80"
+    - "443:443"
+    links:  # Same as depends_on samrest, but also sets the hostname at which this service can reach the linked service
+    - samrest:uwsgi  # Nginx.conf can reference "samrest" service with the hostname 'uwsgi' or 'samrest'
