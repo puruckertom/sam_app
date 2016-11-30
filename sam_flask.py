@@ -46,7 +46,8 @@ def sam_endpoint():
 
 if __name__ == '__main__':
     import os
-    if os.environ['DOCKER_CONTAINER']:
+    try:
+        os.environ.get('DOCKER_CONTAINER')
         app.run(host='0.0.0.0', port=7778, debug=True)  # 'host' param needed to expose server publicly w/o NGINX/uWSGI
-    else:
+    except KeyError:
         app.run(port=7778, debug=True)
