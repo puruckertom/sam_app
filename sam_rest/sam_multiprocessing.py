@@ -34,7 +34,7 @@ def multiprocessing_setup():
             nproc = 16
     except:
         pass
-    print("max_workers=%s" % nproc)
+    print("max_workers={0!s}".format(nproc))
     return Pool(max_workers=nproc)  # Set number of workers to equal the number of processors available on machine
 
 
