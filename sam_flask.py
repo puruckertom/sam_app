@@ -10,7 +10,7 @@ app = Flask(__name__)
 def hello_world():
     import sys
     version = sys.version
-    return 'Hello World! Python Version = %s' % version
+    return 'Hello World! Python Version = {0!s}'.format(version)
 
 
 @app.route('/rest/sam', methods=['GET', 'POST'])
